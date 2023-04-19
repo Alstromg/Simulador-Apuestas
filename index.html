@@ -4,9 +4,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./Css/styke.css">
 </head>
 <body>
-    
+    <header>
+        <div><h1>💎Apuestas Alstromg💎</h1></div>
+        <div id="saldoActual"><p>Saldo <br> ---</p></div>
+        <div>
+        <form id="form-saldo">
+            <label for="monto">Recarga</label>
+            <br>
+            <input type="number" id="monto" name="monto">
+            <br>
+            <button type="button" onclick="sumar()">Sumar</button>
+          </form>
+        </div>      
+    </header>
+    <main>
+        <section class="bots" id ="bots">
+        </section>
+        <section >
+            <h3>!Competiras Contra!🐱‍👤</h3>
+            <div id="cartaBot"></div>
+        </section>
+        <section id= "apuesta">
+        </section>
+    </main>
+    <footer>
+        <div><h3> Jugar sin control causa adicción.El juego es entretenimiento.Juega con moderación.Prohibida la venta a menores de edad.</h3></div>
+        <div>
+            <img src="./img/mayores-de-18-aos.png" alt="">
+            <img src="./img/LOGO-AUTORIZA-COLJUEGOS.png" alt="">
+        </div>
+    </footer> 
 </body>
-<script src="./apuesta.js"></script>
+<script src="./JavaScript/script.js"></script>
+ 
 </html>
