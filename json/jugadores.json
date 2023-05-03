@@ -1,0 +1,30 @@
+{
+"jugadores": [
+    {
+      "id": 1,
+      "nombre": "Andres",
+      "edad": 25,
+      "dificultad": 3,
+      "descripcion": "Andres es nuevo en esto de las apuestas, pero no te confies",
+      "ganancia": 0.5,
+      "imagen":"./img/andres.jpeg"
+    },
+    {
+      "id": 2,  
+      "nombre": "Camila",
+      "edad": 40,
+      "dificultad": 5,
+      "descripcion": "Camila juega por diversion aun asi no sera facil ganarle",
+      "ganancia": 1,
+      "imagen":"./img/camila.jpg"
+    },
+    {
+        "id": 3,  
+      "nombre": "Felipe",
+      "edad": 31,
+      "dificultad": 7,
+      "descripcion": "Felipe lleva un tiempo en las apuestas conocido por tener algo de suerte, Cuidado de desfalca",
+      "ganancia": 1.5,
+      "imagen":"./img/felipe.jpg"
+    }
+  ]}

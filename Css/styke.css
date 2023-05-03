@@ -85,14 +85,15 @@ section h3 {
 #apuesta {
     text-align: center;
 }
-#resultados {
-    border-collapse: collapse;
-    text-align: center;
+
+#resultado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;;
   }
-table td {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 2px #ccc;
-    background-color: #f0f0f0;
-  }
+#resultado div{
+    width: 400px;
+    height: 400px;
+
+}

@@ -1,63 +1,38 @@
+let cajas = document.getElementById('bots');
+let carta;
 
-const jugadores = [
-    {
-      id: 1,
-      nombre: "Andres",
-      edad: 25,
-      dificultad: 3,
-      descripcion: "Andres es nuevo en esto de las apuestas, pero no te confies",
-      ganancia: 0.5,
-      imagen:"./img/andres.jpeg"
-    },
-    {
-      id: 2,  
-      nombre: "Camila",
-      edad: 40,
-      dificultad: 5,
-      descripcion: "Camila juega por diversion aun asi no sera facil ganarle",
-      ganancia: 1,
-      imagen:"./img/camila.jpg"
-    },
-    {
-        id: 3,  
-      nombre: "Felipe",
-      edad: 31,
-      dificultad: 7,
-      descripcion: "Felipe lleva un tiempo en las apuestas conocido por tener algo de suerte, Cuidado de desfalca",
-      ganancia: 1.5,
-      imagen:"./img/felipe.jpg"
-    },
-  ];
-  
-  let cajas = document.getElementById('bots');
-  function eleccionPersonaje (){
-  for (const jugador of jugadores) {
-    let carta = document.createElement('div');
-    carta.className = 'card';
-    carta.innerHTML = `
-      <div class="card">
-        <img src=${jugador.imagen} class="card-img-top" alt="jugador">
-        <div class="card-body">
-          <h5>${jugador.nombre}</h5>
-          <p>dificultad ${jugador.dificultad}</p>
-          <p>edad ${jugador.edad}</p>
-          <p>${jugador.descripcion}</p>
-          <p>Ganas el ${jugador.ganancia}</p>
-          <button href="" class="botonS" id="botonS${jugador.id}">Seleccionar </button>
-        </div>
-      </div>
-    `;
-    cajas.appendChild(carta);
-  }
-
-  jugadores.forEach((jugador)=>{
-    document.getElementById(`botonS${jugador.id}`).addEventListener(`click`,()=>{
-        personajeSelccionado(jugador);
-    });
-  });
-  };
-  
-eleccionPersonaje();
+function obtenerJugadores() {
+  const jugadorJson = "../json/jugadores.json";
+  fetch(jugadorJson)
+    .then((respuesta) => respuesta.json())
+    .then((datos) => {
+      let botjugadores = datos.jugadores;
+      botjugadores.forEach((bot) => { 
+        carta = document.createElement('div');
+        carta.className = 'card';
+        carta.innerHTML += `
+          <div class="card">
+            <img src=${bot.imagen} class="card-img-top" alt="jugador">
+            <div class="card-body">
+              <h5>${bot.nombre}</h5>
+              <p>dificultad ${bot.dificultad}</p>
+              <p>edad ${bot.edad}</p>
+              <p>${bot.descripcion}</p>
+              <p>Ganas el ${bot.ganancia}</p>
+              <button href="" class="botonS" id="botonS${bot.id}">Seleccionar </button>
+            </div>
+          </div>
+        `;
+        cajas.appendChild(carta);
+      })
+      botjugadores.forEach((jugador) => {
+        document.getElementById(`botonS${jugador.id}`).addEventListener(`click`, () => {
+          personajeSeleccionado(jugador);
+        });
+      });
+    })
+} 
+ console.log(obtenerJugadores());
 let seleccionado = null;
 let cartaB = document.getElementById("cartaBot")
 function personajeSelccionado(eleccion){
@@ -95,12 +70,14 @@ function sumar() {
 let apostar = document.getElementById("apuesta")
 
 function apostarSeccion (){
-  alert("Seleccionaste a = " + JSON.stringify(seleccionado, function (img,valor){
-    if(img === "imagen" ){
-      return undefined;
-    }
-    return valor;
-  }, ","))
+  Swal.fire({
+    title: '¡Vamos!',
+    text: `Jugaras contra ${seleccionado.nombre}`,
+    imageUrl: seleccionado.imagen,
+    imageWidth: 300,
+    imageHeight: 250,
+    imageAlt: '',
+  })
 cajas.innerHTML = ``
 apostar.innerHTML = `<h4>Si adivinas el numero en que piensas ${seleccionado.nombre} Ganadoras el ${seleccionado.ganancia} de tu apuesta</h3><form id="form-saldo">
 <label for="valor">Apuesta Rey</label>
@@ -134,28 +111,35 @@ function numeroJugador(){
   let valorApuesta = Number(document.getElementById("numeroAletorio").value);
   numeroAletorioJugador = valorApuesta;
 }
+let resultado = document.getElementById("resultado")
 function botonApostar(){
-if ( saldo>0){
-  if(saldo > apuestaRealizada && numeroAletorioJugador > 0 && seleccionado.dificultad >= numeroAletorioJugador  ){
+  if(saldo >= apuestaRealizada && numeroAletorioJugador > 0 && seleccionado.dificultad >= numeroAletorioJugador  ){
     if(numeroAletorioJugador === numeroAletorio(seleccionado.dificultad)){
       saldo += apuestaRealizada*seleccionado.ganancia
       localStorage.setItem('saldo', saldo);
       saldoActual.innerHTML =  `<p> Saldo <br> ${saldo} <p>`
+      resultado.innerHTML = ` <div> <h3>Ganaste $ ${apuestaRealizada*seleccionado.ganancia}</h3></div>
+      `
 
     }else {
       saldo -= apuestaRealizada
       localStorage.setItem('saldo', saldo);
       saldoActual.innerHTML =  `<p> Saldo <br> ${saldo} <p>`
+      resultado.innerHTML = ` <div> <h3>Perdiste $ ${apuestaRealizada}</h3></div>
+      `
     }
   }
   else{
-    alert("2Saldo Insuficiente o numero elegido fuera de los parametros")
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'Saldo o numero fuera de los parametros',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }  
 }
-else{
-  alert("1Saldo Insuficiente o numero elegido fuera de los parametros")
-}
-}
+
 function botonDeApostar (){
   apostando()
   numeroJugador()
