@@ -1,12 +1,13 @@
 let cajas = document.getElementById('bots');
 let carta;
+let botjugadores;
 
 function obtenerJugadores() {
   const jugadorJson = "../json/jugadores.json";
   fetch(jugadorJson)
     .then((respuesta) => respuesta.json())
     .then((datos) => {
-      let botjugadores = datos.jugadores;
+      botjugadores = datos.jugadores;
       botjugadores.forEach((bot) => { 
         carta = document.createElement('div');
         carta.className = 'card';
@@ -25,17 +26,20 @@ function obtenerJugadores() {
         `;
         cajas.appendChild(carta);
       })
-      botjugadores.forEach((jugador) => {
-        document.getElementById(`botonS${jugador.id}`).addEventListener(`click`, () => {
-          personajeSeleccionado(jugador);
-        });
-      });
+      
+botjugadores.forEach((bot) => {
+  document.getElementById(`botonS${bot.id}`).addEventListener(`click`, () => {
+    personajeSeleccionado(bot);
+  });
+});
     })
-} 
- console.log(obtenerJugadores());
+    
+}
+obtenerJugadores();
+
 let seleccionado = null;
 let cartaB = document.getElementById("cartaBot")
-function personajeSelccionado(eleccion){
+function personajeSeleccionado(eleccion){
     seleccionado = eleccion;
     cartaB.innerHTML = `
     <div class ="cartaBot">
@@ -65,6 +69,7 @@ function sumar() {
   saldo += monto;
   localStorage.setItem('saldo', saldo);
   saldoActual.innerHTML = `<p> Saldo <br> ${saldo} <p>`
+  document.getElementById("monto").value = ""
 }
 
 let apostar = document.getElementById("apuesta")
@@ -101,6 +106,7 @@ let resulatados = document.getElementById("resultados")
 function apostando(){
   let valorApuesta = Number(document.getElementById("valorApuesta").value);
   apuestaRealizada = valorApuesta;
+  document.getElementById("valorApuesta").value = ""
 }
 function numeroAletorio (dificultad){
   let numero = Math.floor(Math.random() * dificultad) + 1;
@@ -110,6 +116,7 @@ let numeroAletorioJugador = 0;
 function numeroJugador(){
   let valorApuesta = Number(document.getElementById("numeroAletorio").value);
   numeroAletorioJugador = valorApuesta;
+  document.getElementById("numeroAletorio").value = ""
 }
 let resultado = document.getElementById("resultado")
 function botonApostar(){
